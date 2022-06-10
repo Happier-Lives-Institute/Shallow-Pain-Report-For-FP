@@ -92,6 +92,9 @@ treat.psyc <- treat.psyc %>% filter(!is.na(d_se)) # need d_se,
 # All sorts of FU, comparisons (active, TAU, etc.), samples (adults, children),
 # are included for now.
 
+# Convert the effect sizes
+treat.psyc <- treat.psyc %>% mutate(d = ifelse(isHighScoreGood, d*-1, d))
+
 # Note whether the outcome is pain or swb
 treat.psyc <- treat.psyc %>% mutate(
   measure_general = ifelse(grepl("pain", measure), "pain", "swb"),
