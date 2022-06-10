@@ -122,7 +122,7 @@ messenger <- rbind(messenger,
                               neffects=nrow(treat.psyc.pain),
                               nobs=sum(treat.psyc.pain$`sample size`), 
                               note="average effect on pain (SD) of psychology-based treatments for 
-                              chronic pain on SWB")
+                              chronic pain")
 )
 
 messenger <- rbind(messenger,
@@ -132,7 +132,7 @@ messenger <- rbind(messenger,
                               nstudies=uniqueN(treat.psyc.swb$citation), 
                               neffects=nrow(treat.psyc.swb),
                               nobs=sum(treat.psyc.swb$`sample size`), 
-                              note="average effect on swb (SD) of psychology-based treatments for chronic pain on SWB")
+                              note="average effect on swb (SD) of psychology-based treatments for chronic pain")
 )
 
 # Relationship between pain and swb
