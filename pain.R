@@ -69,6 +69,33 @@ messenger <- rbind(messenger,
                               note="average effect on swb (SD) of having cancer pain")
 )
 
+# Get migraine conditions
+pc.migraine <- pc.all %>% filter(grepl("migraine", tolower(`condition (specific)`)))
+
+# Prepare for meta
+pc.migraine <- pc.migraine %>% rowwise() %>% mutate(
+  n1 = `sample size`/2,
+  n2 = `sample size`/2,
+  d_se = getDSE(d, n1=n1, n2=n2)
+) %>% ungroup()
+# meta
+pc.migraine.mod <- rma.mv(yi = d, V = d_se^2,
+                        slab = citation,
+                        random =  ~1 | citation,
+                        test = "t", method="REML",
+                        data = pc.migraine)
+
+# prepare message for the sheet
+messenger <- rbind(messenger,
+                   data.frame(value=coef(pc.migraine.mod)[[1]], 
+                              ci=paste0(round.c(pc.migraine.mod$ci.lb,2), ", ", 
+                                        round.c(pc.migraine.mod$ci.ub,2)), 
+                              nstudies=uniqueN(pc.migraine$citation), 
+                              neffects=nrow(pc.migraine),
+                              nobs=sum(pc.migraine$`sample size`), 
+                              note="average effect on swb (SD) of having migraine pain")
+)
+
 ################################################################################
 #                                    Treatments                                #
 ################################################################################
